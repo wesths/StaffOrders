@@ -1,0 +1,11 @@
+.vs/
+StaffOrder.Domain/bin/
+StaffOrder.Domain/obj/
+StaffOrder.Infrastructure/bin/
+StaffOrder.Infrastructure/obj/
+StaffOrder.Interface/bin/
+StaffOrder.Interface/obj/
+StaffOrder.Service/bin/
+StaffOrder.Service/obj/
+StaffOrder.WebApi/bin/
+StaffOrder.WebApi/obj/

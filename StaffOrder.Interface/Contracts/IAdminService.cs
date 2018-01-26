@@ -9,5 +9,7 @@ namespace StaffOrder.Interface.Contracts
     {
         ViewAllStaffOrdersResponse ViewAllStaffOrders(ViewAllStaffOrdersRequest request);
         ProcessStaffOrderResponse ProcessStaffOrder(ProcessStaffOrderRequest request);
+        ViewOrdersByStatusResponse ViewOrdersByStatus(ViewOrdersByStatusRequest request);
+        ViewOrderByIDResponse ViewOrderByID(ViewOrderByIDRequest request);
     }
 }

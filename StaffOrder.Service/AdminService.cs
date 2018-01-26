@@ -17,5 +17,15 @@ namespace StaffOrder.Service
         {
             throw new NotImplementedException();
         }
+
+        public ViewOrderByIDResponse ViewOrderByID(ViewOrderByIDRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ViewOrdersByStatusResponse ViewOrdersByStatus(ViewOrdersByStatusRequest request)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

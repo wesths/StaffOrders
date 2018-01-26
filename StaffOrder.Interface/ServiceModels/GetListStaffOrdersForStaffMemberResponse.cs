@@ -16,7 +16,7 @@ namespace StaffOrder.Interface.ServiceModels
         public string EmployeeNo { get; set; }
         public int OrderCode { get; set; }
         public string Mailing { get; set; }
-        public int Month { get; set; }
+        public string Month { get; set; }
         public int page { get; set; }
         public string Description { get; set; }
         public string Size { get; set; }

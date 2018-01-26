@@ -37,17 +37,22 @@ namespace StaffOrder.Service
         public GetPersonalDetailsResponse GetPersonalDetails(GetPersonalDetailsRequest request)
         {
             Domain.StaffMember staffMember;
-            if ((request.FirstName != null) && (request.LastName != null))
+            if ((!request.FirstName.Equals("")) && (!request.LastName.Equals("")))
             {
                 staffMember = _staffOrderRepo.GetStaffMember(request.FirstName, request.LastName);
             }
-            else if (request.EmpNo != null)
+            else if ((!request.EmpNo.Equals("")))
             {
                 staffMember = _staffOrderRepo.GetStaffMemberEmpNo(request.EmpNo);
             }
             else
             {
                 staffMember = _staffOrderRepo.GetStaffMember(request.Username);
+            }
+
+            if(staffMember == null)
+            {
+                throw new StaffException("Cannot find personal details.");
             }
 
             GetPersonalDetailsResponse response = new GetPersonalDetailsResponse()
@@ -73,6 +78,17 @@ namespace StaffOrder.Service
             foreach(var item in orders)
             {
                 var contactDetails = _staffOrderRepo.GetOrderContactDetails(item.OrderId);
+
+                if(contactDetails == null)
+                {
+                    contactDetails = new Domain.OrderContact()
+                    {
+                        ContactName = String.Empty,
+                        ContactNo = String.Empty,
+                        OrderId = 0,
+                        ExtNo = String.Empty
+                    };
+                }
 
                 list.Add(new GetStaffOrdersForStaffMemberResponse()
                 {
@@ -130,7 +146,7 @@ namespace StaffOrder.Service
 
         public void SaveOrder(SaveOrderRequest request)
         {
-            var staff = _staffOrderRepo.GetStaffMember(request.EmployeeNo);
+            var staff = _staffOrderRepo.GetStaffMemberEmpNo(request.EmployeeNo);
 
             if (staff == null)
             {
@@ -174,7 +190,16 @@ namespace StaffOrder.Service
 
         public void SaveOrderContactDetails(SaveOrderContactDetailsRequest request)
         {
-            throw new NotImplementedException();
+            Domain.OrderContact orderContact = new Domain.OrderContact()
+            {
+                ContactName = request.ContactName,
+                ContactNo = request.ContactNo,
+                ExtNo = request.ExtNo,
+                OrderId = request.OrderId
+            };
+
+            _staffOrderRepo.SaveOrderContactDetails(orderContact);
+
         }
 
         public void SavePersonalDetails(SavePersonalDetails request)

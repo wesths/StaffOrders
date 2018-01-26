@@ -33,10 +33,10 @@ namespace StaffOrder.Infrastructure.Repositories.StaffOrder
                 "ContactNo, " +
                 "ExtNo" +                
                 " from stoOrderContact " +
-                "where OrdNo = @OrdNo ";
+                "where StaffOrdNo = @OrdNo ";
             DynamicParameters param = new DynamicParameters();
 
-            param.Add("@OrdNo", ordNo, dbType: DbType.String, direction: ParameterDirection.Input);
+            param.Add("@OrdNo", ordNo, dbType: DbType.Int32, direction: ParameterDirection.Input);
 
             Domain.OrderContact orderContact = conn.Query<Domain.OrderContact>(sqlStr, param, commandType: CommandType.Text).SingleOrDefault();
 
@@ -55,7 +55,7 @@ namespace StaffOrder.Infrastructure.Repositories.StaffOrder
                 "Mailing, " +
                 "Month," +
                 "Page," +
-                "ItemDescription," +
+                "ItemDesciption as Description," +
                 "Size," +
                 "Price," +
                 "OrdDate " +
@@ -141,8 +141,7 @@ namespace StaffOrder.Infrastructure.Repositories.StaffOrder
         }
 
         public void SaveOrder(Order order)
-        {
-            
+        {            
 
             var sqlStr = "Insert stoStaffOrder (EmpNo,OrdCode,ItemNo,ItemDepartment,Mailing,Month,Page,ItemDesciption,Size,Price,OrdDate,Auditdte,AuditUsr) " +
                 " values (@EmpNo, @OrdCode, @ItemNo, @ItemDepartment, @Mailing, @Month, @Page, @ItemDescription, @Size, @Price, @OrdDate, @Auditdte, @AuditUsr)";
@@ -152,13 +151,13 @@ namespace StaffOrder.Infrastructure.Repositories.StaffOrder
                         
             param.Add("@EmpNo", order.EmployeeNo, dbType: DbType.String, direction: ParameterDirection.Input);
             param.Add("@OrdCode", order.OrdCode, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("@ItemNo", order.ItemNo, dbType: DbType.Int16, direction: ParameterDirection.Input);
+            param.Add("@ItemNo", order.ItemNo, dbType: DbType.Int32, direction: ParameterDirection.Input);
             param.Add("@ItemDepartment", order.Dept, dbType: DbType.String, direction: ParameterDirection.Input);
             param.Add("@Mailing", order.Mailing, dbType: DbType.String, direction: ParameterDirection.Input);
             param.Add("@Month", order.Month, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("@Page", order.page, dbType: DbType.Int16, direction: ParameterDirection.Input);
+            param.Add("@Page", order.page, dbType: DbType.Int32, direction: ParameterDirection.Input);
             param.Add("@ItemDescription", order.Description, dbType: DbType.String, direction: ParameterDirection.Input);
-            param.Add("@Size", order.Size, dbType: DbType.Int16, direction: ParameterDirection.Input);
+            param.Add("@Size", order.Size, dbType: DbType.String, direction: ParameterDirection.Input);
             param.Add("@Price", order.Price, dbType: DbType.Decimal, direction: ParameterDirection.Input);
             param.Add("@OrdDate", today, dbType: DbType.DateTime, direction: ParameterDirection.Input);
             param.Add("@Auditdte", today, dbType: DbType.DateTime, direction: ParameterDirection.Input);
@@ -170,22 +169,45 @@ namespace StaffOrder.Infrastructure.Repositories.StaffOrder
             }
         }
 
-        public void SavePersonalDetails(StaffMember staffMember)
+        public void SaveOrderContactDetails(OrderContact orderContact)
         {
-            var sqlStr = $"if not exists ( select 1 from stoStaff where Username = {staffMember.UserName} )" +
-                " begin" +
-                "Insert stoStaffOrder (EmpNo,OrdCode,ItemNo,ItemDepartment,Mailing,Month,Page,ItemDesciption,Size,Price,OrdDate,Auditdte,AuditUsr) " +
-                " values (@EmpNo, @OrdCode, @ItemNo, @ItemDepartment, @Mailing, @Month, @Page, @ItemDescription, @Size, @Price, @OrdDate, @Auditdte, @AuditUsr)" +
+            var sqlStr = $"if not exists ( select 1 from stoOrderContact where staffOrdNo = {orderContact.OrderId} )" +
+                " begin " +
+                " Insert stoOrderContact (staffOrdNo,ContactName,ContactNo,ExtNo) " +
+                $" values ({orderContact.OrderId}, '{orderContact.ContactName}', '{orderContact.ContactNo}','{orderContact.ExtNo}')" +
+                " end " + 
                 " else " +
                 "  begin " +
-                " update stoStaffOrder " +
-                $" set FirstName = {staffMember.FirstName}," +
-                $" LastName = {staffMember.LastName}, " +
-                $" EmpNo = {staffMember.EmpNo}, " +
-                $" Dept = {staffMember.Department}, " +
-                $" ContactNo = {staffMember.ContactNo}, " +
-                $" ExtNo = {staffMember.ExtNo} " +
-                $" where Username = {staffMember.UserName}" +
+                " update stoOrderContact " +
+                $" set ContactName = '{orderContact.ContactName}'," +
+                $" ContactNo = '{orderContact.ContactNo}', " +
+                $" Extno = '{orderContact.ExtNo}' " +
+                $" where StaffOrdNo = {orderContact.OrderId}" +
+                " end ";
+
+            using (IDbConnection conn = _connectionFactory.GetNewSqlConnectionWithLoginDetails(new SqlConnection(connection), String.Empty, String.Empty))
+            {
+                conn.Execute(sqlStr, null, null, null, CommandType.Text);// StoredProcedure);
+            }
+        }
+
+        public void SavePersonalDetails(StaffMember staffMember)
+        {
+            var sqlStr = $"if not exists ( select 1 from stoStaff where Username = '{staffMember.UserName}' )" +
+                " begin " +
+                "Insert stoStaff (FirstName,LastName,EmpNo,Dept,ContactNo,ExtNo,UserName) " +
+                $" values ('{staffMember.FirstName}', '{staffMember.LastName}', {staffMember.EmpNo}, '{staffMember.Department}', '{staffMember.ContactNo}', '{staffMember.ExtNo}', '{staffMember.UserName}')" +
+                " end " +
+                " else " +
+                "  begin " +
+                " update stoStaff " +
+                $" set FirstName = '{staffMember.FirstName}'," +
+                $" LastName = '{staffMember.LastName}', " +
+                $" EmpNo = '{staffMember.EmpNo}', " +
+                $" Dept = '{staffMember.Department}', " +
+                $" ContactNo = '{staffMember.ContactNo}', " +
+                $" ExtNo = '{staffMember.ExtNo}' " +
+                $" where Username = '{staffMember.UserName}'" +
                 " end ";
 
             

@@ -13,5 +13,6 @@ namespace StaffOrder.Domain.Contracts
         OrderContact GetOrderContactDetails(int ordId);
         void SaveOrder(Order order);
         void SavePersonalDetails(StaffMember staffMember);
+        void SaveOrderContactDetails(OrderContact orderContact);
     }
 }

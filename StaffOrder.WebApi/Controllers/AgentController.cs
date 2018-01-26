@@ -21,7 +21,7 @@ namespace StaffOrder.WebApi.Controllers
 
         [HttpPost]
         [Route("GetATB")]
-        public GetATBforStaffMemberResponse GetATB(GetATBforStaffMemberRequest request)
+        public GetATBforStaffMemberResponse GetATB([FromBody]GetATBforStaffMemberRequest request)
         {
             var result = _agentService.GetATBforStaffMember(request);
             return result;
@@ -29,7 +29,7 @@ namespace StaffOrder.WebApi.Controllers
 
         [HttpPost]
         [Route("GetPersonalDetails")]
-        public GetPersonalDetailsResponse GetPersonalDetails(GetPersonalDetailsRequest request)
+        public GetPersonalDetailsResponse GetPersonalDetails([FromBody]GetPersonalDetailsRequest request)
         {
             var result = _agentService.GetPersonalDetails(request);
             return result;
@@ -38,7 +38,7 @@ namespace StaffOrder.WebApi.Controllers
 
         [HttpPost]
         [Route("GetStaffOrdersForStaffMember")]
-        public GetListStaffOrdersForStaffMemberResponse GetStaffOrdersForStaffMember(GetStaffOrdersForStaffMemberRequest request)
+        public GetListStaffOrdersForStaffMemberResponse GetStaffOrdersForStaffMember([FromBody]GetStaffOrdersForStaffMemberRequest request)
         {
             var result = _agentService.GetStaffOrdersForStaffMember(request);
             return result;
@@ -46,7 +46,7 @@ namespace StaffOrder.WebApi.Controllers
 
         [HttpPost]
         [Route("GetStock")]
-        public GetStockResponse GetStock(GetStockRequest request)
+        public GetStockResponse GetStock([FromBody]GetStockRequest request)
         {
             var result = _agentService.GetStock(request);
             return result;
@@ -55,16 +55,23 @@ namespace StaffOrder.WebApi.Controllers
 
         [HttpPost]
         [Route("SaveOrder")]
-        public void SaveOrder(SaveOrderRequest request)
+        public void SaveOrder([FromBody]SaveOrderRequest request)
         {
             _agentService.SaveOrder(request);
         }
 
         [HttpPost]
         [Route("SavePersonalDetails")]
-        public void SavePersonalDetails(SavePersonalDetails request)
+        public void SavePersonalDetails([FromBody]SavePersonalDetails request)
         {
             _agentService.SavePersonalDetails(request);
+        }
+
+        [HttpPost]
+        [Route("SaveOrderContactDetails")]
+        public void SaveOrderContactDetails([FromBody]SaveOrderContactDetailsRequest request)
+        {
+            _agentService.SaveOrderContactDetails(request);
         }
     }
 }

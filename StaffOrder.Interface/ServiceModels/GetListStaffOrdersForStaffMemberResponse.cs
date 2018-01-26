@@ -11,7 +11,7 @@ namespace StaffOrder.Interface.ServiceModels
 
     public class GetStaffOrdersForStaffMemberResponse
     {
-        public DateTime OrderDate { get; set; }
+        public string OrderDate { get; set; }
         public int OrderId { get; set; }
         public string EmployeeNo { get; set; }
         public int OrderCode { get; set; }

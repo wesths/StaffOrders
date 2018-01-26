@@ -48,17 +48,17 @@ namespace StaffOrder.Infrastructure.Repositories.StaffOrder
             IDbConnection conn = _connectionFactory.GetNewSqlConnectionWithLoginDetails(new SqlConnection(connection), String.Empty, String.Empty);
 
             var sqlStr = "select StaffOrdNo as OrderId, " +
-                "EmpNo, " +
+                "EmpNo as EmployeeNo, " +
                 "OrdCode, " +
                 "ItemNo," +
-                "ItemDepartment, " +
+                "ItemDepartment as Dept, " +
                 "Mailing, " +
                 "Month," +
                 "Page," +
                 "ItemDesciption as Description," +
                 "Size," +
                 "Price," +
-                "OrdDate " +
+                "OrdDate as OrderDate" +
                 " from stoStaffOrder " +
                 "where EmpNo = @empNo ";
             DynamicParameters param = new DynamicParameters();

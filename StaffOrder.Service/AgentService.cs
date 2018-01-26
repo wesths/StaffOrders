@@ -98,7 +98,7 @@ namespace StaffOrder.Service
                     EmployeeNo = item.EmployeeNo,
                     Mailing = item.Mailing,
                     Month = item.Month,
-                    OrderDate = item.OrderDate,
+                    OrderDate = item.OrderDate.ToString("yyyy/MM/dd"),
                     page = item.page,
                     OrderCode = item.OrdCode,
                     Price = item.Price,

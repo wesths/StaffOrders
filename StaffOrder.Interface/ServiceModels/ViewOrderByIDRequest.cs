@@ -6,6 +6,6 @@ namespace StaffOrder.Interface.ServiceModels
 {
     public class ViewOrderByIDRequest
     {
-        int OrderId { get; set; }
+        public int OrderId { get; set; }
     }
 }

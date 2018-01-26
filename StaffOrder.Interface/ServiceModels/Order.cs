@@ -8,11 +8,11 @@ namespace StaffOrder.Interface.ServiceModels
     {
         public int OrderId { get; set; }
         public DateTime OrderDate { get; set; }
-        public int EmployeeNo { get; set; }
+        public string EmployeeNo { get; set; }
         public int OrdCode { get; set; }
         public int ItemNo { get; set; }
         public string Mailing { get; set; }
-        public int Month { get; set; }
+        public string Month { get; set; }
         public int Page { get; set; }
         public string Description { get; set; }
         public string Size { get; set; }

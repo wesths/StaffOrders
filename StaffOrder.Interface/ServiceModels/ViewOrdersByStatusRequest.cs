@@ -6,6 +6,6 @@ namespace StaffOrder.Interface.ServiceModels
 {
     public class ViewOrdersByStatusRequest
     {
-        int StatusId { get; set; }
+        public int StatusId { get; set; }
     }
 }

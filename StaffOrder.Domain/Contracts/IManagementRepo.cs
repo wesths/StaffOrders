@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using StaffOrder.Domain.Management;
 
-namespace StaffOrder.Infrastructure.Configurations.Contracts
+namespace StaffOrder.Domain.Contracts
 {
     public interface IManagementRepo
     {

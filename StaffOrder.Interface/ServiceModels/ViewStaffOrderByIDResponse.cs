@@ -4,6 +4,6 @@ namespace StaffOrder.Interface.ServiceModels
 {
     public class ViewStaffOrderByIDResponse
     {
-        List<Order> Orders { get; set; }
+        public Order Order { get; set; }
     }
 }

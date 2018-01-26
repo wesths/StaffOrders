@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StaffOrder.Interface.Contracts;
 using StaffOrder.Interface.ServiceModels;
 
 namespace StaffOrder.WebApi.Controllers
@@ -12,23 +13,39 @@ namespace StaffOrder.WebApi.Controllers
     [Route("api/Admin")]
     public class AdminController : Controller
     {
-        public AdminController()
+        private IAdminService _adminService;
+        public AdminController(IAdminService adminService)
         {
-
+            _adminService = adminService;
         }
 
         [HttpPost]
         [Route("ProcessStaffOrder")]
-        public ProcessStaffOrderResponse ProcessStaffOrder(ProcessStaffOrderRequest request)
+        public void ProcessStaffOrder(ProcessStaffOrderRequest request)
         {
-            throw new NotImplementedException();
+            _adminService.ProcessStaffOrder(request);
         }
 
         [HttpPost]
         [Route("ViewAllStaffOrders")]
         public ViewAllStaffOrdersResponse ViewAllStaffOrders(ViewAllStaffOrdersRequest request)
         {
-            throw new NotImplementedException();
+            return _adminService.ViewAllStaffOrders(request);
+        }
+
+        [HttpPost]
+        [Route("ViewStaffOrderByID")]
+        public ViewStaffOrderByIDResponse ViewStaffOrderByID(ViewStaffOrderByIDRequest request)
+        {
+            return _adminService.ViewStaffOrderByID(request);
+        }
+
+        //TODO: Rename
+        [HttpPost]
+        [Route("ViewOrdersByStatus")]
+        public ViewOrdersByStatusResponse ViewOrdersByStatus(ViewOrdersByStatusRequest request)
+        {
+            return _adminService.ViewOrdersByStatus(request);
         }
 
     }

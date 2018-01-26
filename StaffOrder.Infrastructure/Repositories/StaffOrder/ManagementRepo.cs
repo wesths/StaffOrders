@@ -1,5 +1,6 @@
 ﻿using Dapper;
-using StaffOrder.Domain.Management;
+using StaffOrder.Domain;
+using StaffOrder.Domain.Contracts;
 using StaffOrder.Infrastructure.Configurations.Contracts;
 using StaffOrder.Infrastructure.Connection;
 using System;
@@ -92,7 +93,12 @@ namespace StaffOrder.Infrastructure.Repositories.StaffOrder
             return orders;
         }
 
-        Order IManagementRepo.ViewOrderByID(int orderID)
+        List<Domain.Order> IManagementRepo.ViewAllOrders()
+        {
+            throw new NotImplementedException();
+        }
+
+        Order ViewOrderByID(int orderID)
         {
             //TODO: Add Contact Details and status
             IDbConnection conn = _connectionFactory.GetNewSqlConnectionWithLoginDetails(new SqlConnection(connection), String.Empty, String.Empty);
@@ -118,6 +124,16 @@ namespace StaffOrder.Infrastructure.Repositories.StaffOrder
 
             return order;
 
+        }
+
+        Domain.Order IManagementRepo.ViewOrderByID(int orderID)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<Domain.Order> IManagementRepo.ViewOrdersByStatus(int status)
+        {
+            throw new NotImplementedException();
         }
     }
 }

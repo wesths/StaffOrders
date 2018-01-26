@@ -8,7 +8,7 @@ namespace StaffOrder.Domain.Management
     {
         public int OrderId { get; set; }
         public DateTime OrderDate { get; set; }
-        public int EmployeeNo { get; set; }
+        public string EmployeeNo { get; set; }
         public int OrdCode { get; set; }
         public int ItemNo { get; set; }
         public string Mailing { get; set; }

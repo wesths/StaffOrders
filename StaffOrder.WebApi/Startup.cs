@@ -12,10 +12,14 @@ using Microsoft.Extensions.Options;
 using NLog;
 using NLog.Config;
 using NLog.Extensions.Logging;
+using StaffOrder.Domain.Contracts;
 using StaffOrder.Infrastructure.Configurations;
 using StaffOrder.Infrastructure.Configurations.ConfigModels;
 using StaffOrder.Infrastructure.Configurations.Contracts;
+using StaffOrder.Infrastructure.Connection;
 using StaffOrder.Infrastructure.Logging;
+using StaffOrder.Infrastructure.Repositories.ATB;
+using StaffOrder.Infrastructure.Repositories.StaffOrder;
 using StaffOrder.Infrastructure.Tracking;
 using StaffOrder.Interface.Contracts;
 using StaffOrder.Service;
@@ -70,6 +74,9 @@ namespace StaffOrder
 
             services.AddTransient<IAdminService, AdminService>();
             services.AddTransient<IAgentService, AgentService>();
+            services.AddTransient<IConnectionFactory, ConnectionFactory>();
+            services.AddTransient<IATBRepo, ATBRepo>();
+            services.AddTransient<IStaffOrderRepo, StaffOrderRepo>();
 
             // Dependency injection - Logging
             services.AddTransient<ILoggerService, LoggerService>();

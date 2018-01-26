@@ -1,6 +1,10 @@
-﻿namespace StaffOrder.Interface.ServiceModels
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace StaffOrder.Domain
 {
-    public class GetPersonalDetailsResponse
+    public class StaffMember
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

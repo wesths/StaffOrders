@@ -1,6 +1,10 @@
-﻿namespace StaffOrder.Interface.ServiceModels
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace StaffOrder.Domain
 {
-    public class GetATBforStaffMemberResponse
+    public class ATB
     {
         public string EmpNo { get; set; }
         public string Name { get; set; }

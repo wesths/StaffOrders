@@ -2,5 +2,6 @@
 {
     public class GetATBforStaffMemberRequest
     {
+        public string EmpNo { get; set; }
     }
 }

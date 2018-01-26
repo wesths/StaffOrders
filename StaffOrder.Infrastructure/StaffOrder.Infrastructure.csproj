@@ -17,4 +17,8 @@
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.4.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\StaffOrder.Domain\StaffOrder.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

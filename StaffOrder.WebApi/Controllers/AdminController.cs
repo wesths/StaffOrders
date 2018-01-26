@@ -16,11 +16,15 @@ namespace StaffOrder.WebApi.Controllers
         {
 
         }
+
+        [HttpPost]
         [Route("ProcessStaffOrder")]
         public ProcessStaffOrderResponse ProcessStaffOrder(ProcessStaffOrderRequest request)
         {
             throw new NotImplementedException();
         }
+
+        [HttpPost]
         [Route("ViewAllStaffOrders")]
         public ViewAllStaffOrdersResponse ViewAllStaffOrders(ViewAllStaffOrdersRequest request)
         {

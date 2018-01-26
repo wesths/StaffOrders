@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace StaffOrder.Interface.ServiceModels
+namespace StaffOrder.Domain
 {
-    public class SaveOrderRequest
+    public class Order
     {
+        public int OrderId { get; set; }
         public DateTime OrderDate { get; set; }
         public string EmployeeNo { get; set; }
         public int OrdCode { get; set; }
@@ -14,6 +17,7 @@ namespace StaffOrder.Interface.ServiceModels
         public string Description { get; set; }
         public string Size { get; set; }
         public decimal Price { get; set; }
+        public int StatusID { get; set; }
         public string Dept { get; set; }
     }
 }

@@ -1,6 +1,10 @@
-﻿namespace StaffOrder.Interface.ServiceModels
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace StaffOrder.Domain
 {
-    public class GetStockResponse
+    public class Stock
     {
         public string AXCategory { get; set; }
         public string AXSubCategory { get; set; }

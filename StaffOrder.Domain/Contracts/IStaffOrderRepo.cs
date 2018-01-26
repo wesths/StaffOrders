@@ -7,6 +7,11 @@ namespace StaffOrder.Domain.Contracts
     public interface IStaffOrderRepo
     {
         StaffMember GetStaffMember(string firstName, string lastName);
-        StaffMember GetStaffMember(string empNo);
+        StaffMember GetStaffMemberEmpNo(string empNo);
+        StaffMember GetStaffMember(string userName);
+        List<Order> GetOrdersForStaffMember(string empNo);
+        OrderContact GetOrderContactDetails(int ordId);
+        void SaveOrder(Order order);
+        void SavePersonalDetails(StaffMember staffMember);
     }
 }

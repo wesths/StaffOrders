@@ -20,6 +20,7 @@ using StaffOrder.Infrastructure.Connection;
 using StaffOrder.Infrastructure.Logging;
 using StaffOrder.Infrastructure.Repositories.ATB;
 using StaffOrder.Infrastructure.Repositories.StaffOrder;
+using StaffOrder.Infrastructure.Repositories.Stock;
 using StaffOrder.Infrastructure.Tracking;
 using StaffOrder.Interface.Contracts;
 using StaffOrder.Service;
@@ -77,6 +78,7 @@ namespace StaffOrder
             services.AddTransient<IConnectionFactory, ConnectionFactory>();
             services.AddTransient<IATBRepo, ATBRepo>();
             services.AddTransient<IStaffOrderRepo, StaffOrderRepo>();
+            services.AddTransient<IStockRepo, StockRepo>();
 
             // Dependency injection - Logging
             services.AddTransient<ILoggerService, LoggerService>();

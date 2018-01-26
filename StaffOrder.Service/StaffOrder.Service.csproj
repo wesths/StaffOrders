@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StaffOrder.Domain\StaffOrder.Domain.csproj" />
+    <ProjectReference Include="..\StaffOrder.Infrastructure\StaffOrder.Infrastructure.csproj" />
     <ProjectReference Include="..\StaffOrder.Interface\StaffOrder.Interface.csproj" />
   </ItemGroup>
 

@@ -11,9 +11,10 @@ namespace StaffOrder.Interface.Contracts
         void SaveOrder(SaveOrderRequest request);
         void SavePersonalDetails(SavePersonalDetails request);
         GetPersonalDetailsResponse GetPersonalDetails(GetPersonalDetailsRequest request);
-        GetStaffOrdersForStaffMemberResponse GetStaffOrdersForStaffMember(GetStaffOrdersForStaffMemberRequest request);
+        GetListStaffOrdersForStaffMemberResponse GetStaffOrdersForStaffMember(GetStaffOrdersForStaffMemberRequest request);
         GetATBforStaffMemberResponse GetATBforStaffMember(GetATBforStaffMemberRequest request);
         GetStockResponse GetStock(GetStockRequest request);
+        
 
     }
 }

@@ -2,5 +2,6 @@
 {
     public class GetStockRequest
     {
+        public int ItemNo { get; set; }
     }
 }

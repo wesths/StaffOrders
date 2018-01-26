@@ -35,5 +35,36 @@ namespace StaffOrder.WebApi.Controllers
             return result;
 
         }
+
+        [HttpPost]
+        [Route("GetStaffOrdersForStaffMember")]
+        public GetListStaffOrdersForStaffMemberResponse GetStaffOrdersForStaffMember(GetStaffOrdersForStaffMemberRequest request)
+        {
+            var result = _agentService.GetStaffOrdersForStaffMember(request);
+            return result;
+        }
+
+        [HttpPost]
+        [Route("GetStock")]
+        public GetStockResponse GetStock(GetStockRequest request)
+        {
+            var result = _agentService.GetStock(request);
+            return result;
+
+        }
+
+        [HttpPost]
+        [Route("SaveOrder")]
+        public void SaveOrder(SaveOrderRequest request)
+        {
+            _agentService.SaveOrder(request);
+        }
+
+        [HttpPost]
+        [Route("SavePersonalDetails")]
+        public void SavePersonalDetails(SavePersonalDetails request)
+        {
+            _agentService.SavePersonalDetails(request);
+        }
     }
 }

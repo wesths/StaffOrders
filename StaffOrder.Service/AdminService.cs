@@ -16,9 +16,9 @@ namespace StaffOrder.Service
             _managementRepo = managementRepo;
         }
 
-        public ProcessStaffOrderResponse ProcessStaffOrder(ProcessStaffOrderRequest request)
+        public void ProcessStaffOrder(ProcessStaffOrderRequest request)
         {
-            throw new NotImplementedException();
+            _managementRepo.ProcessOrder(request.OrderId, request.StatusId);
         }
 
         public ViewAllStaffOrdersResponse ViewAllStaffOrders(ViewAllStaffOrdersRequest request)
@@ -40,7 +40,8 @@ namespace StaffOrder.Service
                     Description = order.Description,
                     Size = order.Size,
                     Price = order.Price,
-                    Dept = order.Dept
+                    Dept = order.Dept,
+                    StatusID = order.StatusID
                 });
             }
 
@@ -70,7 +71,8 @@ namespace StaffOrder.Service
                     Description = order.Description,
                     Size = order.Size,
                     Price = order.Price,
-                    Dept = order.Dept
+                    Dept = order.Dept,
+                    StatusID = order.StatusID
                 }
             };
             return response;
@@ -95,7 +97,8 @@ namespace StaffOrder.Service
                     Description = order.Description,
                     Size = order.Size,
                     Price = order.Price,
-                    Dept = order.Dept
+                    Dept = order.Dept,
+                    StatusID = order.StatusID
                 });
             }
 

@@ -79,6 +79,7 @@ namespace StaffOrder
             services.AddTransient<IATBRepo, ATBRepo>();
             services.AddTransient<IStaffOrderRepo, StaffOrderRepo>();
             services.AddTransient<IStockRepo, StockRepo>();
+            services.AddTransient<IManagementRepo, ManagementRepo>();
 
             // Dependency injection - Logging
             services.AddTransient<ILoggerService, LoggerService>();

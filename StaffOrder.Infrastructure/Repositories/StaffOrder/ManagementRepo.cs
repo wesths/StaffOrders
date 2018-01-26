@@ -24,26 +24,25 @@ namespace StaffOrder.Infrastructure.Repositories.StaffOrder
             connection = configService.GetSQLConnectionString();
         }
 
-        public void ProcessOrder(int orderID, int status)
+        public void ProcessOrder(int orderID, int statusId)
         {
+            string auditUser = "test";
+            using (IDbConnection conn = _connectionFactory.GetNewSqlConnectionWithLoginDetails(new SqlConnection(connection), String.Empty, String.Empty))
+            {
+                var procedure = @"INSERT INTO [dbo].[StoStaffOrdStatusTrack]
+                  ([staffOrdNo] ,[StaffOrdStatusID],[Auditdte],[AuditUsr])
+                VALUES (@staffOrdNo, @StaffOrdStatusID, GETDATE(), @user)";
 
-            //TODO:
+                var parameters = new DynamicParameters();
+                parameters.Add("@staffOrdNo", orderID);
+                parameters.Add("@StaffOrdStatusID", statusId);
+                parameters.Add("@user", auditUser);
 
-            //using (IDbConnection conn = _connectionFactory.GetNewSqlConnectionWithLoginDetails(new SqlConnection(connection)))
-            //{
-            //    var procedure = "insert into stoStaffOrderStatus values (@ )";
+                conn.Execute(procedure, parameters, null, null, CommandType.Text);
+            }
+        }     
 
-            //    var parameters = new DynamicParameters();
-            //    parameters.Add("PersonNo", correspondence.personNo);
-            //    parameters.Add("CompNo", 1);
-            //    parameters.Add("DocCode", correspondence.docCode);
-            //    parameters.Add("FreeText", string.Empty);
-
-            //    conn.Execute(procedure, parameters, null, null, CommandType.StoredProcedure);
-            //}
-        }
-
-        public List<Order> ViewAllOrders()
+        public List<Domain.Order> ViewAllOrders()
         {
             IDbConnection conn = _connectionFactory.GetNewSqlConnectionWithLoginDetails(new SqlConnection(connection), String.Empty, String.Empty);
 
@@ -59,32 +58,39 @@ namespace StaffOrder.Infrastructure.Repositories.StaffOrder
                           ,[Size]
                           ,[Price]
                           ,[OrdDate] as OrderDate
-                        FROM[Omega].[dbo].[StoStaffOrder]";
+                          ,(select top 1 StaffOrdStatusID from [Omega].[dbo].StoStaffOrdStatusTrack sst 
+                                    WHERE sst.[staffOrdNo] = sso.[staffOrdNo] 
+                                    order by auditDte desc) as StatusID
+                        FROM [Omega].[dbo].[StoStaffOrder] sso";
 
             List<Order> orders = conn.Query<Order>(sqlStr, null, commandType: CommandType.Text).ToList();
             return orders;
         }
 
-        public List<Order> ViewOrdersByStatus(int status)
+        public List<Domain.Order> ViewOrdersByStatus(int status)
         {
             IDbConnection conn = _connectionFactory.GetNewSqlConnectionWithLoginDetails(new SqlConnection(connection), String.Empty, String.Empty);
-            
+
             //TODO: Refactor Status Get  
-            //
-            var sqlStr = @"SSELECT [staffOrdNo] as OrderID
-                          ,[EmpNo] as EmployeeNo
-                          ,[OrdCode]
-                          ,[ItemNo]
-                          ,[ItemDepartment] as Dept
-                          ,[Mailing]
-                          ,[Month]
-                          ,[Page]
-                          ,[ItemDesciption] as Description
-                          ,[Size]
-                          ,[Price]
-                          ,[OrdDate] as OrderDate
-                        FROM[Omega].[dbo].[StoStaffOrder]
-            WHERE StatusID = @StatusID";
+            var sqlStr = @"select * from 
+                        (SELECT sso.[staffOrdNo] as OrderID
+                                ,[EmpNo] as EmployeeNo
+                                ,[OrdCode]
+                                ,[ItemNo]
+                                ,[ItemDepartment] as Dept
+                                ,[Mailing]
+                                ,[Month]
+                                ,[Page]
+                                ,[ItemDesciption] as Description
+                                ,[Size]
+                                ,[Price]
+                                ,[OrdDate] as OrderDate
+		                        ,(  select top 1 StaffOrdStatusID from Omega.dbo.StoStaffOrdStatusTrack sst 
+                                    WHERE sst.[staffOrdNo] = sso.[staffOrdNo] 
+                                    order by auditDte desc) as StatusID
+                            FROM [Omega].[dbo].[StoStaffOrder] sso
+	                        ) staffordersUpdated
+	                        where StatusID = @StatusID";
             DynamicParameters param = new DynamicParameters();
 
             param.Add("@StatusID", status, dbType: DbType.Int32, direction: ParameterDirection.Input);
@@ -92,18 +98,12 @@ namespace StaffOrder.Infrastructure.Repositories.StaffOrder
             List<Order> orders = conn.Query<Order>(sqlStr, param, commandType: CommandType.Text).ToList();
             return orders;
         }
-
-        List<Domain.Order> IManagementRepo.ViewAllOrders()
-        {
-            throw new NotImplementedException();
-        }
-
-        Order ViewOrderByID(int orderID)
+        public Domain.Order ViewOrderByID(int orderID)
         {
             //TODO: Add Contact Details and status
             IDbConnection conn = _connectionFactory.GetNewSqlConnectionWithLoginDetails(new SqlConnection(connection), String.Empty, String.Empty);
 
-            var sqlStr = @"SELECT [staffOrdNo] as OrderID
+            var sqlStr = @"SELECT sso.[staffOrdNo] as OrderID
                           ,[EmpNo] as EmployeeNo
                           ,[OrdCode]
                           ,[ItemNo]
@@ -115,25 +115,18 @@ namespace StaffOrder.Infrastructure.Repositories.StaffOrder
                           ,[Size]
                           ,[Price]
                           ,[OrdDate] as OrderDate
-                        FROM[Omega].[dbo].[StoStaffOrder]
+                          ,(select top 1 StaffOrdStatusID from Omega.dbo.StoStaffOrdStatusTrack sst 
+                                    WHERE sst.[staffOrdNo] = sso.[staffOrdNo] 
+                                    order by auditDte desc) as StatusID
+                        FROM[Omega].[dbo].[StoStaffOrder] sso
             where staffOrdNo = @OrderID";
             DynamicParameters param = new DynamicParameters();
-            param.Add("@OrderNo", orderID, dbType: DbType.String, direction: ParameterDirection.Input);
+            param.Add("@OrderID", orderID, dbType: DbType.String, direction: ParameterDirection.Input);
 
             Order order = conn.Query<Order>(sqlStr, param, commandType: CommandType.Text).FirstOrDefault();
 
             return order;
 
-        }
-
-        Domain.Order IManagementRepo.ViewOrderByID(int orderID)
-        {
-            throw new NotImplementedException();
-        }
-
-        List<Domain.Order> IManagementRepo.ViewOrdersByStatus(int status)
-        {
-            throw new NotImplementedException();
         }
     }
 }

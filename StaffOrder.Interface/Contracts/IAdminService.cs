@@ -8,7 +8,7 @@ namespace StaffOrder.Interface.Contracts
     public interface IAdminService
     {
         ViewAllStaffOrdersResponse ViewAllStaffOrders(ViewAllStaffOrdersRequest request);
-        ProcessStaffOrderResponse ProcessStaffOrder(ProcessStaffOrderRequest request);
+        void ProcessStaffOrder(ProcessStaffOrderRequest request);
         ViewOrdersByStatusResponse ViewOrdersByStatus(ViewOrdersByStatusRequest request);
         ViewStaffOrderByIDResponse ViewStaffOrderByID(ViewStaffOrderByIDRequest request);
     }

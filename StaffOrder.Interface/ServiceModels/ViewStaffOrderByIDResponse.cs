@@ -2,7 +2,7 @@
 
 namespace StaffOrder.Interface.ServiceModels
 {
-    public class ViewAllStaffOrdersResponse
+    public class ViewStaffOrderByIDResponse
     {
         List<Order> Orders { get; set; }
     }
